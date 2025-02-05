@@ -5,9 +5,15 @@ each contains a corresponding data-tagid.
 E.g. PvP = data-tagid="1775"
 Within each "app_tag_control popular" there is a single href, which has the category in it.
 
-Extra stuff:
--I've made a 'blobber', which can convert image files into blob format; we could store images
-in our database this way.
+HtmlGrab and TagGrab can already benefit from a refactoring.
+Currently, when grabbing tags (or extracting a div) we always overwrite a temporary file
+called "outputs/output.html", however it might be easier for HtmlGrab to just return an
+object or a list of strings instead of outputting files. TagGrab as well.
+
+A few notes:
+-I've made a C "blobber" for files, we could store images with this.
 -app_id can be [PK] for game entities
 -data-tagid can be a [PK] for the genre/tag entities
+-Beautiful Soup library for html contents?
+
 
