@@ -31,7 +31,7 @@ def grabber(url):
     else:
         print(f"Error: {response.status_code}")
         exit()
-    with open("outputs/output.html", "w") as file:
+    with open("../outputs/output.html", "w") as file:
         print("Created output.html")
         file.write(html_content)
 

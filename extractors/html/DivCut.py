@@ -31,7 +31,7 @@ while no_file:
     # If the file isn't found, check the outputs folder
     except IOError as e:
         try:
-            with open(f"outputs/{file_name}", "r") as file:
+            with open(f"../outputs/{file_name}", "r") as file:
                 html_content = file.read().split("\n")
                 break
         # If the file still isn't found, loop

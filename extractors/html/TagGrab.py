@@ -15,7 +15,7 @@ if len(sys.argv) > 1:
     elif re.match(link_regex, sys.argv[1]):
         HtmlGrab.grabber(sys.argv[1])
 
-html_input = "outputs/output.html"
+html_input = "../outputs/output.html"
 tag_start_pattern = r"InitAppTagModal"
 
 with open(html_input, "r") as file:
