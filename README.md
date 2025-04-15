@@ -12,3 +12,6 @@ This is where importing scripts and programs should go.
 Currently there is only the import.py script which initiates a SQL connection via SQLAlchemy.  
 This will pull from a local .env file (must be made by enduser).  
 
+### NOTE  
+This will be updated once the class project is finished, and will contain all the relevant information from there.  
+For the time being this is solely the project script code for the sake of showcase.  
