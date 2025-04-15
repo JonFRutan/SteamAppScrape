@@ -11,8 +11,10 @@ if len(sys.argv) == 0:
 
 if len(sys.argv) > 1:
     if re.match(app_id_regex, sys.argv[1]):
+        app_id = sys.argv[1]
         HtmlGrab.grab_from_id(sys.argv[1])
     elif re.match(link_regex, sys.argv[1]):
+        app_id = int(re.search(r"app/(\d+)/", sys.argv[1]))
         HtmlGrab.grabber(sys.argv[1])
 
 html_input = "../outputs/output.html"
@@ -39,3 +41,7 @@ tags[tag_count-1] = tags[tag_count-1][:len(tags[tag_count-1])-3]
 print(f"{tag_count} tags found on line {line_count+1}")
 for line in tags:
     print(line)
+
+with open(f"../outputs/{app_id}-tags.txt", "w") as file:
+    for line in tags:
+        file.write(line + "\n")

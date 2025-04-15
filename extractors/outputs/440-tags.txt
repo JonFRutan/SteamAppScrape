@@ -1,0 +1,20 @@
+"tagid":113,"name":"Free to Play","count":62843,"browseable":true
+"tagid":620519,"name":"Hero Shooter","count":61011,"browseable":true
+"tagid":3859,"name":"Multiplayer","count":22864,"browseable":true
+"tagid":1663,"name":"FPS","count":15754,"browseable":true
+"tagid":1774,"name":"Shooter","count":12780,"browseable":true
+"tagid":19,"name":"Action","count":12129,"browseable":true
+"tagid":4155,"name":"Class-Based","count":9924,"browseable":true
+"tagid":5711,"name":"Team-Based","count":9508,"browseable":true
+"tagid":4136,"name":"Funny","count":9473,"browseable":true
+"tagid":3839,"name":"First-Person","count":7979,"browseable":true
+"tagid":3843,"name":"Online Co-Op","count":7375,"browseable":true
+"tagid":3878,"name":"Competitive","count":7139,"browseable":true
+"tagid":4195,"name":"Cartoony","count":7131,"browseable":true
+"tagid":4202,"name":"Trading","count":6849,"browseable":true
+"tagid":1685,"name":"Co-op","count":5859,"browseable":true
+"tagid":1719,"name":"Comedy","count":5418,"browseable":true
+"tagid":5752,"name":"Robots","count":5019,"browseable":true
+"tagid":1708,"name":"Tactical","count":4031,"browseable":true
+"tagid":4562,"name":"Cartoon","count":3988,"browseable":true
+"tagid":1702,"name":"Crafting","count":3713,"browseable":true
