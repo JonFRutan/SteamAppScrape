@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <title>About | Open Valve</title>
+    <h1>About</h1>
+    <hr/>
+  </head>
+
+  <body>
+    <p>This website is for Trevor Corcoran and Jon Rutan's CMSC408 Databases project for the Spring 2025 semester.</p>
+    <p>See the <a href="https://github.com/cmsc-vcu/cmsc408-sp2025-semproj-open-valve">GitHub repository</a> for more information.</p>
+    
+    <br/>
+    <img src="{{ url_for('static', filename='OpenValve_Team_Picture.png') }}"
+      alt="OpenValve Team Picture"
+      height="300"/>
+    <figcaption>OpenValve Team Picture</figcaption>
+
+    <hr/>
+    <p><a href="/">Home</a></p>
+  </body>
+
+<style>
+li {
+  padding: 5px;
+  font-size: 1.2em;
+}
+</style>
+</html>
+

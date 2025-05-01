@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <title>Game Recommendation | Open Valve</title>
+    <h1>Game Recommendation</h1>
+  </head>
+
+  <body>
+    <div class="input">
+      <form method="POST" action="{{ url_for('recommendation') }}">
+        <div style="margin: 10px;">
+          <label for="SteamID">App ID:</label>
+          <input style="margin-left: 5px;" type="text" id="appid" name="appid" required>
+          <select id="strength" name="strength">
+            {% for strength in strengths %}
+              <option value="{{ strength.value }}">{{ strength.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <button type="submit" style="margin: 10px;">Submit</button>
+      </form>
+    </div>
+    <hr/>
+
+    {% if display_result %}
+    <p>
+      <pre class="code">{{ query|safe }}</pre>
+    </p>
+    <hr/>
+
+    <h2 style="color: var(--accent)">Recommendations for AppID {{ appid }}</h2>
+    <p style="padding: 0px;">{{ dataframe|safe }}</p>
+    <hr/>
+    {% endif %}
+
+    <p><a href="/">Home</a><p>
+  </body>
+</html>
+

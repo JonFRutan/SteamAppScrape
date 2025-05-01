@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <title>{{ title }} | Open Valve</title>
+    <h1>{{ title }}</h1>
+  </head>
+
+  <body>
+    <div class="input">
+      <form method="POST" action="{{ url_for('view_game_form') }}">
+        <div style="margin: 10px;">
+          <label for="SteamID">App ID:</label>
+          <input style="margin-left: 5px;" type="text" id="appid" name="appid" required>
+        </div>
+        
+        <button type="submit" style="margin: 10px;">Submit</button>
+      </form>
+    </div>
+    <hr/>
+    <p>
+      <pre class="code">{{ query|safe }}</pre>
+    </p>
+    <hr/>
+    <p style="padding-top: 1px;">{{ dataframe|safe }}</p>
+    <hr/>
+    <p><a href="/">Home</a><p>
+  </body>
+</html>
+

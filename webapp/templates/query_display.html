@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <title>{{ title }} | Open Valve</title>
+    <h1>{{ title }}</h1>
+  </head>
+
+  <body>
+    <hr/>
+    <p>
+      <pre class="code">{{ query|safe }}</pre>
+    </p>
+    <hr/>
+    <p style="padding-top: 1px;">{{ dataframe|safe }}</p>
+    <hr/>
+    <p><a href="/">Home</a><p>
+  </body>
+</html>
+

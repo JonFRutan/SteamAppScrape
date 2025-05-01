@@ -1,0 +1,75 @@
+/* Color palette https://www.shecodes.io/palettes/1437 Deprecated for now */
+/*:root {
+  --base: #323643;
+  --base2: #606470;
+  --base3: #9a9fb3;
+  --accent: #93dedd;
+  --accent2: #93a9ff;
+  --accent3: #93ffe9;
+  --text: #ffffff; 
+}*/
+
+/* Steam Color Palette https://www.color-hex.com/color-palette/1050902 */
+:root {
+  --base: #171a21;
+  --base2: #232730;
+  --base3: #292e37;
+  --accent: #66c0f4;
+  --accent2: #adadad;
+  --accent3: #6679f4;
+  --accent4: #8b8b8b;
+  --text: #ffffff;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    background-color: var(--base);
+    margin: 15px;
+    padding: 0;
+    color: var(--text);
+}
+
+h1 {
+  color: var(--accent);
+}
+
+p {
+  padding: 10px;
+}
+
+/* Colors for links */
+a:link { color: var(--accent); }
+a:visited { color: var(--accent3); }
+a:hover { color: var(--accent2); }
+a:active { color: var(--text); }
+
+/* div class for code display */
+.code {
+  font-family: 'Courier New', monospace;
+}
+
+
+/* Table Styling */
+
+th, td {
+  border: 1px solid var(--accent4);
+  background: var(--base3);
+  text-align: center;
+}
+
+table {
+  margin: 20px;
+  table-layout: auto;
+  width: 90%;
+  border-collapse: collapse;
+  border: 2px solid var(--accent2);
+}
+
+th {
+  padding: 10px;
+  background: var(--base);
+}
+
+td {
+  padding: 5px;
+}

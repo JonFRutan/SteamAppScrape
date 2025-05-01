@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <title>Scraper | Open Valve</title>
+    <h1>Add Game to Database</h1>
+    <hr/>
+  </head>
+
+  <body>
+    <div class="input">
+      <form method="POST" action="/add">
+        <div style="margin: 10px;">
+          <label for="AppID">AppID:</label>
+          <input style="margin-left: 5px;" type="text" id="AppID" name="AppID" required>
+        </div>
+          
+        <button type="submit" style="margin: 10px;">Submit</button>
+      </form>
+    </div>
+
+    <hr/>
+
+    {% if data_available %}
+    <div class="gamedata code">
+      <p>{{ appdata|safe }}</p>
+    </div>
+    <hr/>
+    {% endif %}
+
+    <p><a href="/">Home</a></p>
+  </body>
+
+<style>
+.input {
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+.gamedata {
+  margin: 10px;
+}
+</style>
+
+</html>

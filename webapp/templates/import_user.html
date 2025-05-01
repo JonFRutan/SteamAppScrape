@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <title>Import User | Open Valve</title>
+    <h1>Import a Steam User Library</h1>
+    <h4>Note: Large libraries can take a few minutes to import</h4>
+    <p style="padding: 0px;">Please be patient once you click submit, the website will tell you when it is done.</p>
+    <hr/>
+  </head>
+
+  <body>
+    <div class="input">
+      <form method="POST" action="/import_user">
+        <div style="margin: 10px;">
+          <label for="SteamID">SteamID:</label>
+          <input style="margin-left: 5px;" type="text" id="SteamID" name="SteamID" required>
+        </div>
+        
+        <button type="submit" style="margin: 10px;">Submit</button>
+      </form>
+    </div>
+
+    <hr/>
+
+    {% if data_available %}
+    <div class="gamedata code">
+      <p class="pad-p">{{ result|safe }}</p>
+    </div>
+    <hr/>
+    {% endif %}
+
+    <p class="pad-p"><a href="/">Home</a></p>
+  </body>
+
+<style>
+.input {
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+.gamedata {
+  margin: 10px;
+}
+</style>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Delete Game | Open Valve</title>
+    <h1>Delete Game</h1>
+    <hr/>
+  </head>
+
+  <body>
+    <div class="input">
+      <form method="POST" action="{{ url_for('delete_game') }}">
+        <div style="margin: 10px;">
+          <label for="AppID">AppID:</label>
+          <input type="text" id="AppID" name="AppID" required><br/><br/>
+          <button type="submit" style="margin: 10px;">Delete Game</button>
+        </div>
+      </form>
+    </div>
+    <hr/>
+
+    {% if data_available %}
+    <div class="gamedata code">
+      <p>{{ result|safe }}</p>
+    </div>
+    <hr/>
+    {% endif %}
+
+    <p><a href="/">Home</a></p>
+  </body>
+</html>

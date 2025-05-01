@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Update Game | Open Valve</title>
+    <h1>Update Game Information</h1>
+    <hr/>
+  </head>
+
+  <body>
+    <div class="input">
+      <form method="POST" action="{{ url_for('update_game') }}">
+        <div style="margin: 10px;">
+          <label for="AppID">AppID:</label>
+          <input type="text" id="AppID" name="AppID" required><br/><br/>
+          <label for="NewTitle">New Title (optional):</label>
+          <input type="text" id="NewTitle" name="NewTitle"><br/><br/>
+          <label for="NewDescription">New Description (optional):</label>
+          <input type="text" id="NewDescription" name="NewDescription"><br/><br/>
+          <button type="submit" style="margin: 10px;">Submit</button>
+        </div>
+      </form>
+    </div>
+    <hr/>
+
+    {% if data_available %}
+    <div class="gamedata code">
+      <p>{{ result|safe }}</p>
+    </div>
+    <hr/>
+    {% endif %}
+
+    <p><a href="/">Home</a></p>
+  </body>
+</html>

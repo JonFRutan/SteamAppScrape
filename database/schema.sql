@@ -1,0 +1,40 @@
+DROP TABLE IF EXISTS `Library`;
+DROP TABLE IF EXISTS `User`;
+DROP TABLE IF EXISTS `GameTag`;
+DROP TABLE IF EXISTS `Game`;
+DROP TABLE IF EXISTS `Tag`;
+
+CREATE TABLE `Game` (
+    app_id INT PRIMARY KEY,
+    title VARCHAR(255),
+    description TEXT,
+    release_date DATE
+);
+
+CREATE TABLE `User` (
+    user_id VARCHAR(100) PRIMARY KEY,
+    username VARCHAR(100)
+);
+
+CREATE TABLE `Library` (
+    library_id INT AUTO_INCREMENT PRIMARY KEY,
+    app_id INT,
+    user_id VARCHAR(100),
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (app_id) REFERENCES Game(app_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE `Tag` (
+    tag_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE `GameTag` (
+    game_tag_id INT AUTO_INCREMENT PRIMARY KEY,
+    app_id INT,
+    tag_id INT,
+    FOREIGN KEY (app_id) REFERENCES Game(app_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES Tag(tag_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+commit;

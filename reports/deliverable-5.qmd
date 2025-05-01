@@ -1,0 +1,515 @@
+---
+title: Design Document - Deliverable 5
+
+## Useful references:
+# - Basic Markdown: https://quarto.org/docs/authoring/markdown-basics.html
+# - Quarto figures: https://quarto.org/docs/authoring/figures.html
+# - HTML document basics: https://quarto.org/docs/output-formats/html-basics.html
+# - Quarto guide: https://quarto.org/docs/guide/
+# - VS Code and Quarto: https://quarto.org/docs/tools/vscode.html
+#   (RTFM and GET THE EXTENSION!!!!)
+---
+
+<!--
+GUIDANCE:
+- DO NOT CHANGE the section labels or levels.  The autograder will be looking for these to match.
+- The autograder WILL be looking for snippets of my text and taking off points if it finds anything that I provide, 
+except for section labels and levels.
+- Add your text to each section, then DELETE mine.  
+- Use your own words, and NOT those of ChatGPT!
+- THINK about what you put in each section.
+-->
+
+Open Valve's semester project is a game recommendation system for [Steam](https://store.steampowered.com/), an online video game storefront.
+We believe the game recommendation system is lackluster with many faults, so this project aims to provide an alternate source of finding new games to play.
+The core idea of the project is to scrape, in accordance with Steam's TOS, a large number of game titles and their user-generated tags and put them in a database.
+Using this database, the front-end will compare tags from games the user owns to games in the database in order to find a suitable recommendation.
+
+
+* [[Link to repository](https://github.com/cmsc-vcu/cmsc408-sp2025-semproj-open-valve)]
+* [[Direct link to video pitch](https://cdnapisec.kaltura.com/index.php/extwidget/preview/partner_id/1888231/uiconf_id/28242191/entry_id/1_fwzkxu09/embed/dynamic)]
+* [[Direct link to design video](https://www.youtube.com/watch?v=ejK_bynkZ_4)]
+
+# Design Video
+
+<iframe id="kaltura_player" src="https://cdnapisec.kaltura.com/p/1888231/sp/188823100/embedIframeJs/uiconf_id/28242251/partner_id/1888231?iframeembed=true&playerId=kaltura_player&entry_id=1_pjz0glsu&flashvars[streamerType]=auto&amp;flashvars[localizationCode]=en&amp;flashvars[sideBarContainer.plugin]=true&amp;flashvars[sideBarContainer.position]=left&amp;flashvars[sideBarContainer.clickToClose]=true&amp;flashvars[chapters.plugin]=true&amp;flashvars[chapters.layout]=vertical&amp;flashvars[chapters.thumbnailRotator]=false&amp;flashvars[streamSelector.plugin]=true&amp;flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&amp;flashvars[dualScreen.plugin]=true&amp;flashvars[hotspots.plugin]=1&amp;flashvars[Kaltura.addCrossoriginToIframe]=true&amp;&wid=1_sgec102j" width="400" height="285" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay ; fullscreen; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="delv5"></iframe>
+
+# Problem Description
+
+## Problem domain
+
+The goal of the project is to provide a dynamic and uniquely tailored game recommendation system by using a user's Stream library and game metrics. By creating a database of games and utilizing user-provided tags we can create a clustering system that will find games for users.  
+
+## Need
+
+Steam lacks a reliable and easily accesible recommendation system. The implemented recommendation features are rather one-dimensional and lackluster.
+
+## Context, scope and perspective
+
+The database and project are for all Steam users who just want to find some new games. We're frequent Steam users who have been long familiar with this lacking functionality of Steam, and seek to provide this functionality to all other Steam consumers.
+
+## User roles and use cases
+
+#### Roles  
+
+- Steam Users - A user will simply connect to the provided frontend or use the API to make calls against the database, either querying it for tags or using the similarity function to find game recommendations.  
+
+- Managers - Us, as the developers of the project, we'll be managing the database and populating it via API calls and web scraping techniques. 
+
+#### Use Cases
+
+##### General Usage
+
+The goal is to keep the database efficiently sized so that it may be moved quickly onto local devices. This will remove the necessity of any users information leaving their device, thus leaving safety to the user and not in the hands of us.  
+General usage will go as such:  
+- Package is downloaded, including db file and scripts.  
+- Users may launch included frontend to access scripts that run against the database.  
+- Users may also choose to modify the included database at their liking.  
+
+##### Steam Users
+
+- **Similarity Searching** - A user will connect their Steam account into the app, and upon requesting a similarity search, the system will provide recommended games based on the user's tags and metrics. To connect the user's account to the database, we will use the Steam User API to access their library and user data, and use this information to temporarily form a user profile.  
+
+- **Tag Recommendations** - Using the API a user may simply use a tag to ask for some popular games. This will require just interaction with the frontend or a command line interface.  
+
+##### Maintainers / Creation
+
+- **Database Maintenence** - As the maintainers of the database we will need a system in place to add, change, or create database records. This may be accomplished simply through SQL or a simple frontend available only to us managers.
+
+- **Database Population** - As the creators of the database we are responsible for populating the database for queries and algorithsm to be run against. Our plan for this is to use some scripts designed to webscrape data, and utilize the Steamworks API to fill in our records. This will be incorporatad into the database through simple operations onto the database file.  
+
+
+## Security and Privacy
+
+### Authentication and Access Control
+
+Following the usage of our program; no authentication or security enforcement is necessary, at least on the maintainers side.  
+The database will be made up of only publicly accesible data that may be obtained from Steam itself or through browsing their storefront.
+The only curation done to the database will be design choices made to keep the database relevant and simple, we plan on allowing any user to publicly view, modify, or copy the database at their liking; thus access control is also unnecessary in regard to the games database.  
+
+As to the user data, all scripts and functionalities will be run locally as well, so there is no explicit need for encryption or session management. If the user does run into some security issue or vulnerability from using their (already publicly accessible) Steam ID, the issue was preexisting.  
+
+### Data Protection and Encryption
+
+Data won't need to be encrypted. For the Games database it will be designed to be accessible by anybody who wants to view it for any reason (copyleft you may say). The user data *shouldn't* need to be encrypted as it will only be stored temporarily by the local user, and the information is already public anyways.  
+
+## Ethical and Professional Responsibilities
+
+The ethical concerns for this project are limited. While this project will temporarily access and store user data, the data itself
+is considered low-sensitivity, as the scope of this project is rooted purely in video game discussion. Additionally, the user data will
+be processed locally on the user's machine and not uploaded to any 3rd party, so security, such as it may be, is entirely up to the user
+to secure their own personal device.
+
+### Data Ethics
+
+**Corporate Data**: The stored game data is publically available on the Steam website, and as such,
+this data is not considered sensitive in any way.
+Unauthorized use this data is not considered an issue beyond the wider usual implications of a security breech.
+
+**User Data**: The user data will be transiently stored in memory, only long enough for the necessary computation to be performed on it.
+Therefore, the application's use of user data will leave little room for it to be compromised.  
+Additionally, the user data is generally understood to be non-sensitive. While adequate security measures will be implemented,
+the user needs to make their game library data publically accessable in their Steam account settings for it to be obtained by the application.  
+In this context, the user has authorized anyone to read their library data while it is made public, so it falls under a similar
+priority as the corporate data. The data itself is low-sensitive, as it is simply basic information on what games the user owns, which could
+only be sensitive user owns adult or otherwise embarrasing games they wish to keep secret. 
+The authors of this project consider this a "personal problem" and that those users should "not use this program" if it is cause for concern.
+
+### Bias and Fairness
+
+The designers are electing to limit the database of potential game recommendations to **games with above 10 user reviews**.
+This is to filter out games that are presumably not popular enough to be recommended, and thereby restrict the size of the
+datbase to a more managable number of records.
+
+Next, the designers have decided to **blacklist any adult or poronographic games**, to a reasonable degree. This decision was made
+because this project is made for presentation at a school as a school sponsored activity.
+
+We recognize that these two filters introduce an inherent bias to the game recommendation results, but find that this
+is a fair compromise to tailor the results to the audience the tool is intended for.
+
+### Data Ownership and Consent
+
+The game data is owned by Valve, which is being scraped and used in compliance with their Steam Terms of Service.
+
+The user data is also stored on Valve's servers, but is controlled (in theory) by the user. The user does need to
+make their library data public on their Steam settings, which is the only thing that the user needs to consent to for the application to function.
+
+### Accountability and Transparency
+
+As the authors of the program, we have limited responsibility for the data handling on the user's own system.
+We do have an obligation to make any calls to 3rd party servers secure, but the data processing that happens on the user's own
+computer is their responsibility. This application is designed to be run almost entirely locally on the user's own computer, beyond any necessary API calls made during runtime.
+
+### Legal and Compliance Issues
+
+We are storing limited amounts of non-sensitive data that is generally only stored in RAM. We have not asked a lawyer, but the designers
+believe that there are no compliance issues to be addressed.
+
+# Database Design
+
+## Entity-relationship diagrams
+
+As you can see below (and as mentioned in our pitch video) we've started our design to use a few distinct entitites: Games, Tags, Genres - And on the other side the User and Library.  
+Every User has one library, which can contain many games, and games may be in many libraries. Every game will have tags many tags associated with them, and tags can be associated with many games.  
+
+```{dot}
+digraph G {
+    graph [splines=polyline];
+    layout=neato;
+    node [shape=ellipse, style=filled, fillcolor=lightblue];
+
+    GAME [shape=box, fillcolor=lightgray];
+    TAG [shape=box, fillcolor=lightgray];
+    GENRE [shape=box, fillcolor=lightgray];
+    GAME_TAG [shape=box, fillcolor=lightgray];
+    USER [shape=box, fillcolor=lightgray];
+    LIBRARY [shape=box, fillcolor=lightgray];
+
+    appID [shape=ellipse, label="appID (PK)"];
+    title [shape=ellipse, label="title"];
+    description [shape=ellipse, label="description"];
+    release_date [shape=ellipse, label="release_date"];
+    store_page_link [shape=ellipse, label="store_page_link"];
+    game_tag_id [shape=ellipse, label="game_tag_id (FK)"];
+    genre_tag_id [shape=ellipse, label="genre_rag_id (FK)"];
+    
+    tag_id [shape=ellipse, label="tag_id (PK)"];
+    tag_name [shape=ellipse, label="name"];
+    tag_page_link [shape=ellipse, label="tag_page_link"];
+    
+    genre_id [shape=ellipse, label="genre_id (PK)"];
+    genre_name [shape=ellipse, label="name"];
+    
+    game_tag_id_attr [shape=ellipse, label="game_tag_id (PK)"];
+    game_id_fk [shape=ellipse, label="game_id (FK)"];
+    tag_id_fk [shape=ellipse, label="tag_id (FK)"];
+    
+    user_id [shape=ellipse, label="user_id (PK)"];
+    user_name [shape=ellipse, label="name"];
+    
+    library_user_id [shape=ellipse, label="user_id (FK)"];
+    library_appID [shape=ellipse, label="appID (FK)"];
+    
+    game_tag_rel [shape=diamond, label="has"];
+    game_game_tag_rel [shape=diamond, label="has"];
+    genre_tag_rel [shape=diamond, label="categorized"];
+    user_library_rel [shape=diamond, label="owns"];
+    library_game_rel [shape=diamond, label="contains"];
+
+    GAME -> appID [len=1.5];
+    GAME -> title [len=1.5];
+    GAME -> description [len=1.5];
+    GAME -> release_date [len=1];
+    GAME -> store_page_link [len=1.3];
+    GAME -> game_tag_id [len=1.5];
+
+    TAG -> tag_name [len=1.5];
+    TAG -> tag_page_link [len=1.5];
+    TAG -> genre_tag_id [len=1.5];
+    TAG -> tag_id [len=1.5];
+
+    GENRE -> genre_id [len=1.5];
+    GENRE -> genre_name [len=1.5];
+
+    GAME_TAG -> game_tag_id_attr [len=1.5];
+    GAME_TAG -> game_id_fk [len=1.5];
+    GAME_TAG -> tag_name_fk [len=1.5];
+
+    USER -> user_id [len=1.5];
+    USER -> user_name [len=1.5];
+
+    LIBRARY -> library_user_id [len=1.5];
+    LIBRARY -> library_appID [len=1.5];
+
+    GAME -> game_game_tag_rel [len=1.5];
+    GAME_TAG -> game_game_tag_rel [len=1.5];
+
+    GAME_TAG -> game_tag_rel [len=1.5];
+    TAG -> game_tag_rel [len=1.5];
+
+    GENRE -> genre_tag_rel [len=1.5];
+    TAG -> genre_tag_rel [len=1.5];
+
+    USER -> user_library_rel [len=1.5];
+    LIBRARY -> user_library_rel [len=1.5];
+
+    LIBRARY -> library_game_rel [len=1.5];
+    GAME -> library_game_rel [len=1.5];
+}
+```
+
+```{mermaid}
+erDiagram 
+    
+    GAME {
+        int appID PK
+        string title
+        string description
+        date release_date
+        string store_page_link
+        int game_tag_id FK
+    }
+
+    TAG {
+      int tag_id PK
+      string name
+      string tag_page_link
+      int game_tag_id FK "multi-valued"
+      int genre_tag_id FK
+    }
+
+
+    GAME_TAG {
+      int game_tag_id PK
+      int game_id FK
+      int tag_ID FK
+    }
+
+    USER {
+      int user_id PK
+      string name
+    }
+   
+    LIBRARY {
+      int library_id PK
+      int user_id FK
+      string appID FK 
+    }
+
+    GAME_TAG }o--|{ TAG : has
+    GAME ||--|| GAME_TAG : has
+    GENRE ||..|{ TAG : categorized 
+    USER ||..|| LIBRARY : owns
+    LIBRARY }o..o{ GAME : contains
+```
+
+
+## Relational schemas
+Here is the foundational layout of our database:  
+- **User**( *user_id* INT PRIMARY KEY, name VARCHAR(255) )  
+- **Game**( *appID* INT PRIMARY KEY, title VARCHAR(255), description TEXT, release_date DATE, store_page_link VARCHAR(255) )  
+- **Library**( *library_id* INT PRIMARY KEY, user_id INT FOREIGN KEY REFERENCES User(user_id) )  
+- **Library_Game**( *library_id* INT FOREIGN KEY REFERENCES Library(library_id), appID INT FOREIGN KEY REFERENCES Game(appID) )  
+
+Of course this is prototypal, and in practice it may become more or less complicated as it needs to be in order to fulfill our objectives.  
+
+## Functional Dependencies and Normalization
+We are assuming the following functional dependencies:  
+1. Games: appID → title, description, release_date, store_page_link  
+2. Tags: tag_name → tag_page_link  
+3. Game_Tags: game_tag_id → game_id, tag_name  
+4. Genres: genre_name → {} (self-contained, no dependencies)  
+5. Users: user_id → name  
+6. Libraries: library_id → user_id, appID  
+
+These relations satisfy BCNF and no further decomposition is necessary.  
+
+## Specific queries
+
+Below are 20 distinct queries that the database can help answer, along with their corresponding relational algebra expressions.
+
+##### 1. Retrieve all games in the database.
+$$  
+\pi_{appID, title, description, release\_date, store\_page\_link} (Game)
+$$  
+
+##### 2. Find all games released after 2020.
+$$  
+\pi_{appID, title} (\sigma_{release\_date > '2020-01-01'} (Game))
+$$  
+
+##### 3. List all users who have a Steam library.
+$$  
+\pi_{user\_id, name} (User)
+$$  
+
+##### 4. Find all games that belong to a specific user’s library (e.g., user ID = 1).
+$$  
+\pi_{title} (\sigma_{user\_id = 1} (Library \bowtie Library\_Game \bowtie Game))
+$$  
+
+##### 5. Retrieve the total number of games in the database.
+$$  
+COUNT(appID) (Game)
+$$  
+
+##### 6. Retrieve the total number of users in the database.
+$$  
+COUNT(user\_id) (User)
+$$  
+
+##### 7. Find all games with a specific tag (e.g., "Multiplayer").
+$$  
+\pi_{title} (\sigma_{tag\_name = 'Multiplayer'} (Game \bowtie Game\_Tag \bowtie Tag))
+$$  
+
+##### 8. Retrieve all tags associated with a particular game (e.g., appID = 101).
+$$  
+\pi_{tag\_name} (\sigma_{appID = 101} (Game\_Tag \bowtie Tag))
+$$  
+
+##### 9. List all users who have at least one game in their library.
+$$  
+\pi_{user\_id, name} (Library \bowtie User)
+$$  
+
+##### 10. Find the most popular game (the one that appears in the most libraries).
+$$  
+\pi_{appID, title} (\sigma_{COUNT(library\_id) = MAX(COUNT(library\_id))} (Library\_Game \bowtie Game) \gamma_{appID})
+$$  
+
+##### 11. List all games in a specific genre (e.g., "RPG").
+$$  
+\pi_{title} (\sigma_{name = 'RPG'} (Game \bowtie Game\_Tag \bowtie Tag))
+$$  
+
+##### 12. Find the user with the largest library (most games owned).
+$$  
+\pi_{user\_id, name} (\sigma_{COUNT(appID) = MAX(COUNT(appID))} (Library\_Game \bowtie Library \bowtie User) \gamma_{user\_id})
+$$  
+
+##### 13. Retrieve all users who own a specific game (e.g., appID = 102).
+$$  
+\pi_{user\_id, name} (\sigma_{appID = 102} (Library\_Game \bowtie Library \bowtie User))
+$$  
+
+##### 14. Find games that are shared between two specific users (e.g., user 1 and user 2).
+$$  
+\pi_{title} ((\sigma_{user\_id = 1} (Library\_Game \bowtie Library \bowtie Game)) \cap (\sigma_{user\_id = 2} (Library\_Game \bowtie Library \bowtie Game)))
+$$  
+
+##### 15. Find games that no user owns.
+$$  
+\pi_{title} (Game) - \pi_{title} (Library\_Game \bowtie Game)
+$$  
+
+##### 16. Find the most common tag among all games.
+$$  
+\pi_{tag\_name} (\sigma_{COUNT(appID) = MAX(COUNT(appID))} (Game\_Tag \bowtie Tag) \gamma_{tag\_name})
+$$  
+
+##### 17. Find games that have never been tagged.
+$$  
+\pi_{title} (Game) - \pi_{title} (Game\_Tag \bowtie Game)
+$$  
+
+##### 18. Find all games that belong to libraries containing at least 5 games.
+$$  
+\pi_{appID, title} (\sigma_{COUNT(appID) \geq 5} (Library\_Game \bowtie Game) \gamma_{library\_id})
+$$  
+
+##### 19. Find all games that were released before 2015 and have the "Strategy" tag.
+$$  
+\pi_{title} (\sigma_{release\_date < '2015-01-01' \land tag\_name = 'Strategy'} (Game \bowtie Game\_Tag \bowtie Tag))
+$$  
+
+##### 20. Find all users who own more than 10 games.
+$$  
+\pi_{user\_id, name} (\sigma_{COUNT(appID) > 10} (Library\_Game \bowtie Library \bowtie User) \gamma_{user\_id})
+$$  
+
+
+## Sample Data
+
+#### Games Table
+
+| appID | Title              | Description                      | Release Date | Store Page Link                    |
+|-------|--------------------|---------------------------------|--------------|------------------------------------|
+| 440   | Team Fortress 2        | Nine distinct classes provide...    | 2007-10-10   | steampowered.com/app/440        |
+| 620   | Portal 2     | The "Perpetual Testing Initiative"...   | 2011-04-19   | steampowered.com/app/620        |
+| 400   | Portal       | Portal is a new single player game...      | 2007-10-10   | steampowered.com/app/400        |
+| 220   | Half-Life 2       | Reawakened from statis in the occupied...   | 2004-11-16  | steampowered.com/app/220        |
+| 70   | Half-Life | Named Game of the Year by over 50 publications...       | 1998-11-19   | steampowered.com/app/70   |
+
+#### Library Table
+| library_id | user_id |
+|------------|--------|
+| 1          | 1      |
+| 2          | 2      |
+| 3          | 3      |
+| 4          | 4      |
+| 5          | 5      |
+
+#### Library_Game Table
+
+| library_id | appID |
+|------------|-------|
+| 1          | 101   |
+| 1          | 103   |
+| 2          | 102   |
+| 2          | 105   |
+| 3          | 101   |
+| 3          | 104   |
+| 4          | 105   |
+| 5          | 102   |
+| 5          | 103   |
+
+#### Genre Table
+| genre_id | name |
+|----------|------|
+| 1 | Action |
+| 2 | Co-Op |
+| 3 | Multiplayer |
+| 4 | Singleplayer |
+| 5 | Shooter |
+| 6 | Puzzle |
+
+#### Tag Table
+| tag_id | name | tag_page_link | game_tag_id | genre_tag_id |
+|--------|------|---------------|-------------|--------------|
+| 1 | Adventure | https://store.steampowered.com/category/adventure | ... | 1 |
+| 2 | FPS | https://store.steampowered.com/category/action_fps | ... | 5 |
+| 3 | eSports | https://store.steampowered.com/category/action_fps | ... | 3 |
+| 4 | Action | https://store.steampowered.com/category/action | ... | 1 |
+| 5 | Split Screen | https://store.steampowered.com/tags/en/Split%20Screen/ | ... | 2 |
+| 6 | Singleplayer | https://store.steampowered.com/category/singleplayer | ... | 4 |
+| 7 | Logic | https://store.steampowered.com/tags/en/Logic/ | ... | 6 |
+
+## Project Management
+
+```{mermaid}
+gantt
+    title Open Valve Project Timeline
+    dateFormat YYYY-MM-DD
+    section Project Design
+        Project Pitch   :pd1, 2025-02-07, 2025-02-09
+        Design Document :pd2, after pd1, 2025-03-02
+        Ideation Complete :milestone, pdm
+    section Preliminary Work
+        Tool Selection :pw1, after pd2, 7d
+        Environment Setup :pw2, after pw1, 7d
+        Ready for Development :milestone, pwm 
+    section Database Implementation
+        Define Tables :di1, after pw2, 7d
+        Test With Sample Data :di3, after di1, 3d
+        Database Ready :milestone, dim
+    section Data Gathering
+        Web Scraping :dg1, after di3, 7d
+        Insert Data Into Database :dg2, after dg1, 2d
+        Database Populated :milestone, dgm
+    section Front-End Development
+        Application Design :fd1, after dg2, 7d
+        Application Development :fd2, after dg2, 2025-04-29
+        Project Complete :milestone, fdm
+```
+
+# Reflection
+
+What did you like the most about this project?
+: It was a good reality check for how to manage projects and their scope. We originally had a much more grand idea, but this deliverable gave us the opportunity to rein in our project to something much more feasible for the time we were allocated.
+
+What was most difficult about this project?
+: Coming up with specific solutions to our design problems. It was difficult to accurately put into words and graphs what exactly we needed to change and why.
+
+What additional tips or tricks could I provide to make this assignment easier to accomplish?
+: We were a bit lost in regards to what to put in the video. We tried our best but weren't completely sure we were putting the right content in.  
+We also found 20 relational algebra equations to be a bit much considering the rest of the project was already quite large.
+
+
+# README
+
+::: {style="background:lightgray; margin-left:20px; border-top: 3px solid black; border-bottom: 3px solid black; padding-left:20px; padding-right:20px"}
+{{< include ../README.md >}}
+:::
+
+

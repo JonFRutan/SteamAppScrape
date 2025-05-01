@@ -1,0 +1,352 @@
+[
+  {
+    "objectID": "deliverable-5.html",
+    "href": "deliverable-5.html",
+    "title": "Design Document - Deliverable 5",
+    "section": "",
+    "text": "Open Valve’s semester project is a game recommendation system for Steam, an online video game storefront. We believe the game recommendation system is lackluster with many faults, so this project aims to provide an alternate source of finding new games to play. The core idea of the project is to scrape, in accordance with Steam’s TOS, a large number of game titles and their user-generated tags and put them in a database. Using this database, the front-end will compare tags from games the user owns to games in the database in order to find a suitable recommendation."
+  },
+  {
+    "objectID": "deliverable-5.html#problem-domain",
+    "href": "deliverable-5.html#problem-domain",
+    "title": "Design Document - Deliverable 5",
+    "section": "Problem domain",
+    "text": "Problem domain\nThe goal of the project is to provide a dynamic and uniquely tailored game recommendation system by using a user’s Stream library and game metrics. By creating a database of games and utilizing user-provided tags we can create a clustering system that will find games for users."
+  },
+  {
+    "objectID": "deliverable-5.html#need",
+    "href": "deliverable-5.html#need",
+    "title": "Design Document - Deliverable 5",
+    "section": "Need",
+    "text": "Need\nSteam lacks a reliable and easily accesible recommendation system. The implemented recommendation features are rather one-dimensional and lackluster."
+  },
+  {
+    "objectID": "deliverable-5.html#context-scope-and-perspective",
+    "href": "deliverable-5.html#context-scope-and-perspective",
+    "title": "Design Document - Deliverable 5",
+    "section": "Context, scope and perspective",
+    "text": "Context, scope and perspective\nThe database and project are for all Steam users who just want to find some new games. We’re frequent Steam users who have been long familiar with this lacking functionality of Steam, and seek to provide this functionality to all other Steam consumers."
+  },
+  {
+    "objectID": "deliverable-5.html#user-roles-and-use-cases",
+    "href": "deliverable-5.html#user-roles-and-use-cases",
+    "title": "Design Document - Deliverable 5",
+    "section": "User roles and use cases",
+    "text": "User roles and use cases\n\nRoles\n\nSteam Users - A user will simply connect to the provided frontend or use the API to make calls against the database, either querying it for tags or using the similarity function to find game recommendations.\nManagers - Us, as the developers of the project, we’ll be managing the database and populating it via API calls and web scraping techniques.\n\n\n\nUse Cases\n\nGeneral Usage\nThe goal is to keep the database efficiently sized so that it may be moved quickly onto local devices. This will remove the necessity of any users information leaving their device, thus leaving safety to the user and not in the hands of us.\nGeneral usage will go as such:\n- Package is downloaded, including db file and scripts.\n- Users may launch included frontend to access scripts that run against the database.\n- Users may also choose to modify the included database at their liking.\n\n\nSteam Users\n\nSimilarity Searching - A user will connect their Steam account into the app, and upon requesting a similarity search, the system will provide recommended games based on the user’s tags and metrics. To connect the user’s account to the database, we will use the Steam User API to access their library and user data, and use this information to temporarily form a user profile.\nTag Recommendations - Using the API a user may simply use a tag to ask for some popular games. This will require just interaction with the frontend or a command line interface.\n\n\n\nMaintainers / Creation\n\nDatabase Maintenence - As the maintainers of the database we will need a system in place to add, change, or create database records. This may be accomplished simply through SQL or a simple frontend available only to us managers.\nDatabase Population - As the creators of the database we are responsible for populating the database for queries and algorithsm to be run against. Our plan for this is to use some scripts designed to webscrape data, and utilize the Steamworks API to fill in our records. This will be incorporatad into the database through simple operations onto the database file."
+  },
+  {
+    "objectID": "deliverable-5.html#security-and-privacy",
+    "href": "deliverable-5.html#security-and-privacy",
+    "title": "Design Document - Deliverable 5",
+    "section": "Security and Privacy",
+    "text": "Security and Privacy\n\nAuthentication and Access Control\nFollowing the usage of our program; no authentication or security enforcement is necessary, at least on the maintainers side.\nThe database will be made up of only publicly accesible data that may be obtained from Steam itself or through browsing their storefront. The only curation done to the database will be design choices made to keep the database relevant and simple, we plan on allowing any user to publicly view, modify, or copy the database at their liking; thus access control is also unnecessary in regard to the games database.\nAs to the user data, all scripts and functionalities will be run locally as well, so there is no explicit need for encryption or session management. If the user does run into some security issue or vulnerability from using their (already publicly accessible) Steam ID, the issue was preexisting.\n\n\nData Protection and Encryption\nData won’t need to be encrypted. For the Games database it will be designed to be accessible by anybody who wants to view it for any reason (copyleft you may say). The user data shouldn’t need to be encrypted as it will only be stored temporarily by the local user, and the information is already public anyways."
+  },
+  {
+    "objectID": "deliverable-5.html#ethical-and-professional-responsibilities",
+    "href": "deliverable-5.html#ethical-and-professional-responsibilities",
+    "title": "Design Document - Deliverable 5",
+    "section": "Ethical and Professional Responsibilities",
+    "text": "Ethical and Professional Responsibilities\nThe ethical concerns for this project are limited. While this project will temporarily access and store user data, the data itself is considered low-sensitivity, as the scope of this project is rooted purely in video game discussion. Additionally, the user data will be processed locally on the user’s machine and not uploaded to any 3rd party, so security, such as it may be, is entirely up to the user to secure their own personal device.\n\nData Ethics\nCorporate Data: The stored game data is publically available on the Steam website, and as such, this data is not considered sensitive in any way. Unauthorized use this data is not considered an issue beyond the wider usual implications of a security breech.\nUser Data: The user data will be transiently stored in memory, only long enough for the necessary computation to be performed on it. Therefore, the application’s use of user data will leave little room for it to be compromised.\nAdditionally, the user data is generally understood to be non-sensitive. While adequate security measures will be implemented, the user needs to make their game library data publically accessable in their Steam account settings for it to be obtained by the application.\nIn this context, the user has authorized anyone to read their library data while it is made public, so it falls under a similar priority as the corporate data. The data itself is low-sensitive, as it is simply basic information on what games the user owns, which could only be sensitive user owns adult or otherwise embarrasing games they wish to keep secret. The authors of this project consider this a “personal problem” and that those users should “not use this program” if it is cause for concern.\n\n\nBias and Fairness\nThe designers are electing to limit the database of potential game recommendations to games with above 10 user reviews. This is to filter out games that are presumably not popular enough to be recommended, and thereby restrict the size of the datbase to a more managable number of records.\nNext, the designers have decided to blacklist any adult or poronographic games, to a reasonable degree. This decision was made because this project is made for presentation at a school as a school sponsored activity.\nWe recognize that these two filters introduce an inherent bias to the game recommendation results, but find that this is a fair compromise to tailor the results to the audience the tool is intended for.\n\n\nData Ownership and Consent\nThe game data is owned by Valve, which is being scraped and used in compliance with their Steam Terms of Service.\nThe user data is also stored on Valve’s servers, but is controlled (in theory) by the user. The user does need to make their library data public on their Steam settings, which is the only thing that the user needs to consent to for the application to function.\n\n\nAccountability and Transparency\nAs the authors of the program, we have limited responsibility for the data handling on the user’s own system. We do have an obligation to make any calls to 3rd party servers secure, but the data processing that happens on the user’s own computer is their responsibility. This application is designed to be run almost entirely locally on the user’s own computer, beyond any necessary API calls made during runtime.\n\n\nLegal and Compliance Issues\nWe are storing limited amounts of non-sensitive data that is generally only stored in RAM. We have not asked a lawyer, but the designers believe that there are no compliance issues to be addressed."
+  },
+  {
+    "objectID": "deliverable-5.html#entity-relationship-diagrams",
+    "href": "deliverable-5.html#entity-relationship-diagrams",
+    "title": "Design Document - Deliverable 5",
+    "section": "Entity-relationship diagrams",
+    "text": "Entity-relationship diagrams\nAs you can see below (and as mentioned in our pitch video) we’ve started our design to use a few distinct entitites: Games, Tags, Genres - And on the other side the User and Library.\nEvery User has one library, which can contain many games, and games may be in many libraries. Every game will have tags many tags associated with them, and tags can be associated with many games.\n\n\n\n\n\n\n\nG\n\n\n\nGAME\n\nGAME\n\n\n\nappID\n\nappID (PK)\n\n\n\nGAME-&gt;appID\n\n\n\n\n\ntitle\n\ntitle\n\n\n\nGAME-&gt;title\n\n\n\n\n\ndescription\n\ndescription\n\n\n\nGAME-&gt;description\n\n\n\n\n\nrelease_date\n\nrelease_date\n\n\n\nGAME-&gt;release_date\n\n\n\n\n\nstore_page_link\n\nstore_page_link\n\n\n\nGAME-&gt;store_page_link\n\n\n\n\n\ngame_tag_id\n\ngame_tag_id (FK)\n\n\n\nGAME-&gt;game_tag_id\n\n\n\n\n\ngame_game_tag_rel\n\nhas\n\n\n\nGAME-&gt;game_game_tag_rel\n\n\n\n\n\nlibrary_game_rel\n\ncontains\n\n\n\nGAME-&gt;library_game_rel\n\n\n\n\n\nTAG\n\nTAG\n\n\n\ngenre_tag_id\n\ngenre_rag_id (FK)\n\n\n\nTAG-&gt;genre_tag_id\n\n\n\n\n\ntag_id\n\ntag_id (PK)\n\n\n\nTAG-&gt;tag_id\n\n\n\n\n\ntag_name\n\nname\n\n\n\nTAG-&gt;tag_name\n\n\n\n\n\ntag_page_link\n\ntag_page_link\n\n\n\nTAG-&gt;tag_page_link\n\n\n\n\n\ngame_tag_rel\n\nhas\n\n\n\nTAG-&gt;game_tag_rel\n\n\n\n\n\ngenre_tag_rel\n\ncategorized\n\n\n\nTAG-&gt;genre_tag_rel\n\n\n\n\n\nGENRE\n\nGENRE\n\n\n\ngenre_id\n\ngenre_id (PK)\n\n\n\nGENRE-&gt;genre_id\n\n\n\n\n\ngenre_name\n\nname\n\n\n\nGENRE-&gt;genre_name\n\n\n\n\n\nGENRE-&gt;genre_tag_rel\n\n\n\n\n\nGAME_TAG\n\nGAME_TAG\n\n\n\ngame_tag_id_attr\n\ngame_tag_id (PK)\n\n\n\nGAME_TAG-&gt;game_tag_id_attr\n\n\n\n\n\ngame_id_fk\n\ngame_id (FK)\n\n\n\nGAME_TAG-&gt;game_id_fk\n\n\n\n\n\nGAME_TAG-&gt;game_tag_rel\n\n\n\n\n\nGAME_TAG-&gt;game_game_tag_rel\n\n\n\n\n\ntag_name_fk\n\ntag_name_fk\n\n\n\nGAME_TAG-&gt;tag_name_fk\n\n\n\n\n\nUSER\n\nUSER\n\n\n\nuser_id\n\nuser_id (PK)\n\n\n\nUSER-&gt;user_id\n\n\n\n\n\nuser_name\n\nname\n\n\n\nUSER-&gt;user_name\n\n\n\n\n\nuser_library_rel\n\nowns\n\n\n\nUSER-&gt;user_library_rel\n\n\n\n\n\nLIBRARY\n\nLIBRARY\n\n\n\nlibrary_user_id\n\nuser_id (FK)\n\n\n\nLIBRARY-&gt;library_user_id\n\n\n\n\n\nlibrary_appID\n\nappID (FK)\n\n\n\nLIBRARY-&gt;library_appID\n\n\n\n\n\nLIBRARY-&gt;user_library_rel\n\n\n\n\n\nLIBRARY-&gt;library_game_rel\n\n\n\n\n\ntag_id_fk\n\ntag_id (FK)\n\n\n\n\n\n\n\n\n\n\n\n\n\nerDiagram \n    \n    GAME {\n        int appID PK\n        string title\n        string description\n        date release_date\n        string store_page_link\n        int game_tag_id FK\n    }\n\n    TAG {\n      int tag_id PK\n      string name\n      string tag_page_link\n      int game_tag_id FK \"multi-valued\"\n      int genre_tag_id FK\n    }\n\n    GENRE {\n      int genre_id PK\n      string name\n    }\n\n    GAME_TAG {\n      int game_tag_id PK\n      int game_id FK\n      int tag_ID FK\n    }\n\n    USER {\n      int user_id PK\n      string name\n    }\n   \n    LIBRARY {\n      int user_id FK\n      string appID FK \"multi-valued\"\n    }\n\n    GAME_TAG }o--|{ TAG : has\n    GAME ||--|| GAME_TAG : has\n    GENRE ||..|{ TAG : categorized \n    USER ||..|| LIBRARY : owns\n    LIBRARY }o..o{ GAME : contains"
+  },
+  {
+    "objectID": "deliverable-5.html#relational-schemas",
+    "href": "deliverable-5.html#relational-schemas",
+    "title": "Design Document - Deliverable 5",
+    "section": "Relational schemas",
+    "text": "Relational schemas\nHere is the foundational layout of our database:\n- User( user_id INT PRIMARY KEY, name VARCHAR(255) )\n- Game( appID INT PRIMARY KEY, title VARCHAR(255), description TEXT, release_date DATE, store_page_link VARCHAR(255) )\n- Library( library_id INT PRIMARY KEY, user_id INT FOREIGN KEY REFERENCES User(user_id) )\n- Library_Game( library_id INT FOREIGN KEY REFERENCES Library(library_id), appID INT FOREIGN KEY REFERENCES Game(appID) )\nOf course this is prototypal, and in practice it may become more or less complicated as it needs to be in order to fulfill our objectives."
+  },
+  {
+    "objectID": "deliverable-5.html#functional-dependencies-and-normalization",
+    "href": "deliverable-5.html#functional-dependencies-and-normalization",
+    "title": "Design Document - Deliverable 5",
+    "section": "Functional Dependencies and Normalization",
+    "text": "Functional Dependencies and Normalization\nWe are assuming the following functional dependencies:\n1. Games: appID → title, description, release_date, store_page_link\n2. Tags: tag_name → tag_page_link\n3. Game_Tags: game_tag_id → game_id, tag_name\n4. Genres: genre_name → {} (self-contained, no dependencies)\n5. Users: user_id → name\n6. Libraries: library_id → user_id, appID\nThese relations satisfy BCNF and no further decomposition is necessary."
+  },
+  {
+    "objectID": "deliverable-5.html#specific-queries",
+    "href": "deliverable-5.html#specific-queries",
+    "title": "Design Document - Deliverable 5",
+    "section": "Specific queries",
+    "text": "Specific queries\nBelow are 20 distinct queries that the database can help answer, along with their corresponding relational algebra expressions.\n\n1. Retrieve all games in the database.\n  \n\\pi_{appID, title, description, release\\_date, store\\_page\\_link} (Game)\n\n\n\n2. Find all games released after 2020.\n  \n\\pi_{appID, title} (\\sigma_{release\\_date &gt; '2020-01-01'} (Game))\n\n\n\n3. List all users who have a Steam library.\n  \n\\pi_{user\\_id, name} (User)\n\n\n\n4. Find all games that belong to a specific user’s library (e.g., user ID = 1).\n  \n\\pi_{title} (\\sigma_{user\\_id = 1} (Library \\bowtie Library\\_Game \\bowtie Game))\n\n\n\n5. Retrieve the total number of games in the database.\n  \nCOUNT(appID) (Game)\n\n\n\n6. Retrieve the total number of users in the database.\n  \nCOUNT(user\\_id) (User)\n\n\n\n7. Find all games with a specific tag (e.g., “Multiplayer”).\n  \n\\pi_{title} (\\sigma_{tag\\_name = 'Multiplayer'} (Game \\bowtie Game\\_Tag \\bowtie Tag))\n\n\n\n8. Retrieve all tags associated with a particular game (e.g., appID = 101).\n  \n\\pi_{tag\\_name} (\\sigma_{appID = 101} (Game\\_Tag \\bowtie Tag))\n\n\n\n9. List all users who have at least one game in their library.\n  \n\\pi_{user\\_id, name} (Library \\bowtie User)\n\n\n\n10. Find the most popular game (the one that appears in the most libraries).\n  \n\\pi_{appID, title} (\\sigma_{COUNT(library\\_id) = MAX(COUNT(library\\_id))} (Library\\_Game \\bowtie Game) \\gamma_{appID})\n\n\n\n11. List all games in a specific genre (e.g., “RPG”).\n  \n\\pi_{title} (\\sigma_{name = 'RPG'} (Game \\bowtie Game\\_Tag \\bowtie Tag))\n\n\n\n12. Find the user with the largest library (most games owned).\n  \n\\pi_{user\\_id, name} (\\sigma_{COUNT(appID) = MAX(COUNT(appID))} (Library\\_Game \\bowtie Library \\bowtie User) \\gamma_{user\\_id})\n\n\n\n13. Retrieve all users who own a specific game (e.g., appID = 102).\n  \n\\pi_{user\\_id, name} (\\sigma_{appID = 102} (Library\\_Game \\bowtie Library \\bowtie User))\n\n\n\n14. Find games that are shared between two specific users (e.g., user 1 and user 2).\n  \n\\pi_{title} ((\\sigma_{user\\_id = 1} (Library\\_Game \\bowtie Library \\bowtie Game)) \\cap (\\sigma_{user\\_id = 2} (Library\\_Game \\bowtie Library \\bowtie Game)))\n\n\n\n15. Find games that no user owns.\n  \n\\pi_{title} (Game) - \\pi_{title} (Library\\_Game \\bowtie Game)\n\n\n\n16. Find the most common tag among all games.\n  \n\\pi_{tag\\_name} (\\sigma_{COUNT(appID) = MAX(COUNT(appID))} (Game\\_Tag \\bowtie Tag) \\gamma_{tag\\_name})\n\n\n\n17. Find games that have never been tagged.\n  \n\\pi_{title} (Game) - \\pi_{title} (Game\\_Tag \\bowtie Game)\n\n\n\n18. Find all games that belong to libraries containing at least 5 games.\n  \n\\pi_{appID, title} (\\sigma_{COUNT(appID) \\geq 5} (Library\\_Game \\bowtie Game) \\gamma_{library\\_id})\n\n\n\n19. Find all games that were released before 2015 and have the “Strategy” tag.\n  \n\\pi_{title} (\\sigma_{release\\_date &lt; '2015-01-01' \\land tag\\_name = 'Strategy'} (Game \\bowtie Game\\_Tag \\bowtie Tag))\n\n\n\n20. Find all users who own more than 10 games.\n  \n\\pi_{user\\_id, name} (\\sigma_{COUNT(appID) &gt; 10} (Library\\_Game \\bowtie Library \\bowtie User) \\gamma_{user\\_id})"
+  },
+  {
+    "objectID": "deliverable-5.html#sample-data",
+    "href": "deliverable-5.html#sample-data",
+    "title": "Design Document - Deliverable 5",
+    "section": "Sample Data",
+    "text": "Sample Data\n\nGames Table\n\n\n\n\n\n\n\n\n\n\nappID\nTitle\nDescription\nRelease Date\nStore Page Link\n\n\n\n\n440\nTeam Fortress 2\nNine distinct classes provide…\n2007-10-10\nsteampowered.com/app/440\n\n\n620\nPortal 2\nThe “Perpetual Testing Initiative”…\n2011-04-19\nsteampowered.com/app/620\n\n\n400\nPortal\nPortal is a new single player game…\n2007-10-10\nsteampowered.com/app/400\n\n\n220\nHalf-Life 2\nReawakened from statis in the occupied…\n2004-11-16\nsteampowered.com/app/220\n\n\n70\nHalf-Life\nNamed Game of the Year by over 50 publications…\n1998-11-19\nsteampowered.com/app/70\n\n\n\n\n\nLibrary Table\n\n\n\nlibrary_id\nuser_id\n\n\n\n\n1\n1\n\n\n2\n2\n\n\n3\n3\n\n\n4\n4\n\n\n5\n5\n\n\n\n\n\nLibrary_Game Table\n\n\n\nlibrary_id\nappID\n\n\n\n\n1\n101\n\n\n1\n103\n\n\n2\n102\n\n\n2\n105\n\n\n3\n101\n\n\n3\n104\n\n\n4\n105\n\n\n5\n102\n\n\n5\n103\n\n\n\n\n\nGenre Table\n\n\n\ngenre_id\nname\n\n\n\n\n1\nAction\n\n\n2\nCo-Op\n\n\n3\nMultiplayer\n\n\n4\nSingleplayer\n\n\n5\nShooter\n\n\n6\nPuzzle\n\n\n\n\n\nTag Table\n\n\n\n\n\n\n\n\n\n\ntag_id\nname\ntag_page_link\ngame_tag_id\ngenre_tag_id\n\n\n\n\n1\nAdventure\nhttps://store.steampowered.com/category/adventure\n…\n1\n\n\n2\nFPS\nhttps://store.steampowered.com/category/action_fps\n…\n5\n\n\n3\neSports\nhttps://store.steampowered.com/category/action_fps\n…\n3\n\n\n4\nAction\nhttps://store.steampowered.com/category/action\n…\n1\n\n\n5\nSplit Screen\nhttps://store.steampowered.com/tags/en/Split%20Screen/\n…\n2\n\n\n6\nSingleplayer\nhttps://store.steampowered.com/category/singleplayer\n…\n4\n\n\n7\nLogic\nhttps://store.steampowered.com/tags/en/Logic/\n…\n6"
+  },
+  {
+    "objectID": "deliverable-5.html#project-management",
+    "href": "deliverable-5.html#project-management",
+    "title": "Design Document - Deliverable 5",
+    "section": "Project Management",
+    "text": "Project Management\n\n\n\n\n\ngantt\n    title Open Valve Project Timeline\n    dateFormat YYYY-MM-DD\n    section Project Design\n        Project Pitch   :pd1, 2025-02-07, 2025-02-09\n        Design Document :pd2, after pd1, 2025-03-02\n        Ideation Complete :milestone, pdm\n    section Preliminary Work\n        Tool Selection :pw1, after pd2, 7d\n        Environment Setup :pw2, after pw1, 7d\n        Ready for Development :milestone, pwm \n    section Database Implementation\n        Define Tables :di1, after pw2, 7d\n        Test With Sample Data :di3, after di1, 3d\n        Database Ready :milestone, dim\n    section Data Gathering\n        Web Scraping :dg1, after di3, 7d\n        Insert Data Into Database :dg2, after dg1, 2d\n        Database Populated :milestone, dgm\n    section Front-End Development\n        Application Design :fd1, after dg2, 7d\n        Application Development :fd2, after dg2, 2025-04-29\n        Project Complete :milestone, fdm"
+  },
+  {
+    "objectID": "deliverable-5.html#project-overview",
+    "href": "deliverable-5.html#project-overview",
+    "title": "Design Document - Deliverable 5",
+    "section": "Project Overview",
+    "text": "Project Overview\nThis repository contains the deliverables for the Database Design Project. The objective of this project is to create a database and front-end that provides Steam game recommendations based on the user’s current library. Using user-generated tags, the system identifies and suggests similar games. The final report provides an in-depth analysis of the database design, while the accompanying video presentations offer further context regarding the design process and key considerations."
+  },
+  {
+    "objectID": "deliverable-5.html#authors",
+    "href": "deliverable-5.html#authors",
+    "title": "Design Document - Deliverable 5",
+    "section": "Authors",
+    "text": "Authors\n\nJon Rutan\nTrevor Corcoran"
+  },
+  {
+    "objectID": "deliverable-5.html#deliverables",
+    "href": "deliverable-5.html#deliverables",
+    "title": "Design Document - Deliverable 5",
+    "section": "Deliverables",
+    "text": "Deliverables\n\nDeliverable 4: Project Pitch Video and Report\nDeliverable 5: Design Document\nDeliverable 7: Complete Software Product"
+  },
+  {
+    "objectID": "deliverable-5.html#relevant-folders",
+    "href": "deliverable-5.html#relevant-folders",
+    "title": "Design Document - Deliverable 5",
+    "section": "Relevant Folders",
+    "text": "Relevant Folders\n\n./reports - Holds the Quarto source files of the reports\n./docs - Holds the rendered html files of the reports"
+  },
+  {
+    "objectID": "deliverable-5.html#how-to-render",
+    "href": "deliverable-5.html#how-to-render",
+    "title": "Design Document - Deliverable 5",
+    "section": "How to Render",
+    "text": "How to Render\nYou must have Quarto installed. Inside the ./reports directory, run the command quarto render.\nThen, open ./docs/index.html to view the index page that links to all of the reports contained in this repository."
+  },
+  {
+    "objectID": "deliverable-5.html#project-description",
+    "href": "deliverable-5.html#project-description",
+    "title": "Design Document - Deliverable 5",
+    "section": "Project Description",
+    "text": "Project Description\nProblem Domain: This project focuses on enhancing the gaming experience by providing intelligent game recommendations based on a user’s Steam library. By leveraging user-generated tags, the system determines game similarities to suggest new titles of interest.\nJustification for a Database: Given the extensive nature of Steam’s game library and the variety of user preferences, a structured database is necessary to efficiently store and analyze game data, user libraries, and recommendation mappings."
+  },
+  {
+    "objectID": "deliverable-5.html#queries-and-sample-data",
+    "href": "deliverable-5.html#queries-and-sample-data",
+    "title": "Design Document - Deliverable 5",
+    "section": "Queries and Sample Data",
+    "text": "Queries and Sample Data\nThe database is designed to support 20 distinct queries, illustrating its ability to fulfill a variety of user requirements. Sample data has been provided to demonstrate the expected structure and content of the database tables."
+  },
+  {
+    "objectID": "deliverable-5.html#project-timeline",
+    "href": "deliverable-5.html#project-timeline",
+    "title": "Design Document - Deliverable 5",
+    "section": "Project Timeline",
+    "text": "Project Timeline\nA Gantt Chart has been developed to outline the key tasks and milestones necessary for completing the final deliverable by April 29th."
+  },
+  {
+    "objectID": "deliverable-7.html",
+    "href": "deliverable-7.html",
+    "title": "Implementation - Deliverable 7",
+    "section": "",
+    "text": "OpenValve is a Steam app database. Through a combination of web-scraping and API calling we’ve curated a database of some steam users, their games, and all the tags associated with those games."
+  },
+  {
+    "objectID": "deliverable-4.html",
+    "href": "deliverable-4.html",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "",
+    "text": "[Link to repository]"
+  },
+  {
+    "objectID": "deliverable-4.html#crows-foot-er-diagram",
+    "href": "deliverable-4.html#crows-foot-er-diagram",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Crow’s Foot ER Diagram",
+    "text": "Crow’s Foot ER Diagram\n\n\n\n\n\nerDiagram \n    \n    GAME {\n        int appID PK\n        string title\n        string description\n        date release_date\n        string store_page_link\n        int game_tag_id FK\n    }\n\n    TAG {\n      string name PK\n      string tag_page_link\n      int game_tag_id FK \"multi-valued\"\n    }\n\n    GENRE {\n      string name PK\n    }\n\n    GAME_TAG {\n      int game_tag_id PK\n      int game_id FK\n      int tag_name FK\n    }\n\n    USER {\n      int user_id PK\n      string name\n    }\n   \n    LIBRARY {\n      int user_id FK\n      string appID FK \"multi-valued\"\n    }\n\n    GAME_TAG }o--|{ TAG : has\n    GAME ||--|| GAME_TAG : has\n    GENRE }o..o{ TAG : related-somehow\n    USER ||..|| LIBRARY : owns\n    LIBRARY }o..o{ GAME : contains"
+  },
+  {
+    "objectID": "deliverable-4.html#problem-domain",
+    "href": "deliverable-4.html#problem-domain",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Problem Domain",
+    "text": "Problem Domain\nOpen Valve is a database of steam apps and their associated game data. The focus of the database is on the user-applied tags to steam games."
+  },
+  {
+    "objectID": "deliverable-4.html#need",
+    "href": "deliverable-4.html#need",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Need",
+    "text": "Need\nThe goal of our project is to utilize this data to create a curated recommendation system for users based on their game tags and relevant data.\nThe current recommendation system that Steam boasts is frankly lackluster. Despite being one of the largest game storefronts with millions of users and an untold number of games, the discovery system just does not cut it. We aim to create a database and front-end to address this issue."
+  },
+  {
+    "objectID": "deliverable-4.html#context-scope-perspective",
+    "href": "deliverable-4.html#context-scope-perspective",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Context, Scope, Perspective",
+    "text": "Context, Scope, Perspective\nWe are approaching this as from the perspective of Steam users that want to spend more of our hard-earned money on video games. We do not want to extend our reach beyond what is reasonable for a semester-long project. To this end, we are expecting to only create a basic front-end that is focused on the features, rather than presentability. Additionally, we are first attempting to implement just one recommendation algorithm, and we will see from there what might be necessary to bring this project to fruition.\nProtonDB is a notable example of a similar service. On the linked page, if you change the “Category” to “Personal Library”, there is an option to link your Steam account. Using your profile, the website will process your library. ProtonDB uses this information to tell you what games you own that are compatible with Valve’s Windows compatability layer called Proton (which itself is based off of Wine). We hope to create a similar user experience with our project."
+  },
+  {
+    "objectID": "deliverable-4.html#motivation",
+    "href": "deliverable-4.html#motivation",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Motivation",
+    "text": "Motivation\nAs stated, we believe the discoverability of games on the Steam storefront is lacking, and we want to make a difference!"
+  },
+  {
+    "objectID": "deliverable-4.html#project-overview",
+    "href": "deliverable-4.html#project-overview",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Project Overview",
+    "text": "Project Overview\nThis repository contains the deliverables for the Database Design Project. The objective of this project is to create a database and front-end that provides Steam game recommendations based on the user’s current library. Using user-generated tags, the system identifies and suggests similar games. The final report provides an in-depth analysis of the database design, while the accompanying video presentations offer further context regarding the design process and key considerations."
+  },
+  {
+    "objectID": "deliverable-4.html#authors",
+    "href": "deliverable-4.html#authors",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Authors",
+    "text": "Authors\n\nJon Rutan\nTrevor Corcoran"
+  },
+  {
+    "objectID": "deliverable-4.html#deliverables",
+    "href": "deliverable-4.html#deliverables",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Deliverables",
+    "text": "Deliverables\n\nDeliverable 4: Project Pitch Video and Report\nDeliverable 5: Design Document\nDeliverable 7: Complete Software Product"
+  },
+  {
+    "objectID": "deliverable-4.html#relevant-folders",
+    "href": "deliverable-4.html#relevant-folders",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Relevant Folders",
+    "text": "Relevant Folders\n\n./reports - Holds the Quarto source files of the reports\n./docs - Holds the rendered html files of the reports"
+  },
+  {
+    "objectID": "deliverable-4.html#how-to-render",
+    "href": "deliverable-4.html#how-to-render",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "How to Render",
+    "text": "How to Render\nYou must have Quarto installed. Inside the ./reports directory, run the command quarto render.\nThen, open ./docs/index.html to view the index page that links to all of the reports contained in this repository."
+  },
+  {
+    "objectID": "deliverable-4.html#project-description",
+    "href": "deliverable-4.html#project-description",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Project Description",
+    "text": "Project Description\nProblem Domain: This project focuses on enhancing the gaming experience by providing intelligent game recommendations based on a user’s Steam library. By leveraging user-generated tags, the system determines game similarities to suggest new titles of interest.\nJustification for a Database: Given the extensive nature of Steam’s game library and the variety of user preferences, a structured database is necessary to efficiently store and analyze game data, user libraries, and recommendation mappings."
+  },
+  {
+    "objectID": "deliverable-4.html#queries-and-sample-data",
+    "href": "deliverable-4.html#queries-and-sample-data",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Queries and Sample Data",
+    "text": "Queries and Sample Data\nThe database is designed to support 20 distinct queries, illustrating its ability to fulfill a variety of user requirements. Sample data has been provided to demonstrate the expected structure and content of the database tables."
+  },
+  {
+    "objectID": "deliverable-4.html#project-timeline",
+    "href": "deliverable-4.html#project-timeline",
+    "title": "Deliverable 4 - Video Pitch",
+    "section": "Project Timeline",
+    "text": "Project Timeline\nA Gantt Chart has been developed to outline the key tasks and milestones necessary for completing the final deliverable by April 29th."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Open Valve - Steam Game Recommendation System",
+    "section": "",
+    "text": "This repository contains the deliverables for the Database Design Project. The objective of this project is to create a database and front-end that provides Steam game recommendations based on the user’s current library. Using user-generated tags from the Steam storefront, the system identifies and suggests similar games. The reports provide an in-depth analysis of the database design, with the accompanying video presentations that offer further context regarding the design process, key considerations, and a demo of the final product.\nThis our team name comes from a play on words of Valve and their Steam platform. We decided to “Open the Valve” to generate better game recommendations!"
+  },
+  {
+    "objectID": "index.html#project-overview",
+    "href": "index.html#project-overview",
+    "title": "Open Valve - Steam Game Recommendation System",
+    "section": "",
+    "text": "This repository contains the deliverables for the Database Design Project. The objective of this project is to create a database and front-end that provides Steam game recommendations based on the user’s current library. Using user-generated tags from the Steam storefront, the system identifies and suggests similar games. The reports provide an in-depth analysis of the database design, with the accompanying video presentations that offer further context regarding the design process, key considerations, and a demo of the final product.\nThis our team name comes from a play on words of Valve and their Steam platform. We decided to “Open the Valve” to generate better game recommendations!"
+  },
+  {
+    "objectID": "index.html#authors",
+    "href": "index.html#authors",
+    "title": "Open Valve - Steam Game Recommendation System",
+    "section": "Authors",
+    "text": "Authors\n\nJon Rutan\nTrevor Corcoran\n\nThis our team name comes from a play on words of Valve and their Steam platform. We decided to “Open the Valve” to generate better game recommendations!"
+  },
+  {
+    "objectID": "index.html#deliverables",
+    "href": "index.html#deliverables",
+    "title": "Open Valve - Steam Game Recommendation System",
+    "section": "Deliverables",
+    "text": "Deliverables\n\nDeliverable 4: Project Pitch Video and Report\nDeliverable 5: Design Document\nDeliverable 7: Complete Software Product"
+  },
+  {
+    "objectID": "index.html#relevant-folders",
+    "href": "index.html#relevant-folders",
+    "title": "Open Valve - Steam Game Recommendation System",
+    "section": "Relevant Folders",
+    "text": "Relevant Folders\n\n./reports - Quarto source files of the reports\n./docs - Rendered html files of the reports\n./database - Scripts, data, and SQL files related to the construction of the database\n./webapp - Interactable front-end website for the database"
+  },
+  {
+    "objectID": "index.html#software-requirements",
+    "href": "index.html#software-requirements",
+    "title": "Open Valve - Steam Game Recommendation System",
+    "section": "Software Requirements",
+    "text": "Software Requirements\nYou must have the following installed on your machine to use the software in this repository:\n\nQuarto =&gt; Renders report documents\nPython =&gt; Runs the scripts and website\nPoetry =&gt; Install and manage dependencies"
+  },
+  {
+    "objectID": "index.html#where-and-how",
+    "href": "index.html#where-and-how",
+    "title": "Open Valve - Steam Game Recommendation System",
+    "section": "Where and How",
+    "text": "Where and How\n\nViewing Reports\nSimply open the ./docs/index.html in a browser and click on the report you would like to view.\n\n\nInstalling Dependencies and Configuring the Environment\nWith the aforementioned software requirements installed, run poetry install in the base directory. This will install all necessary Python dependencies and is required to use any other functionality of this repository.\nNow, you must configure the environment variables to allow for a connection to the database server. Create a copy of .env.sample in the root directory and name it .env. Inside that file replace &lt;eID&gt; with your VCU eID. Note that access to this database is limited to the creators of this project. You may create your own MySQL database with the data and scripts inside the ./database folder, if you desire to run this on your own. Just make sure to put the connection details in the .env and all other files should work.\n\n\nRendering Reports\nInside the ./reports directory, run the command poetry run quarto render.\nIt will take a moment to run all Python code and compile the markdown into html, and then the output will be placed in ./docs\n\n\nManaging the Database\n./database hosts a variety of scripts and software. See the README.md in that folder and any instructions from the scripts inside the file or from their output to learn about using them.\n\n\nRunning the Website\nInside the ./webapp directory, run make to start the website. It will be hosted on your local machine using Flask."
+  },
+  {
+    "objectID": "index.html#project-description",
+    "href": "index.html#project-description",
+    "title": "Open Valve - Steam Game Recommendation System",
+    "section": "Project Description",
+    "text": "Project Description\nProblem Domain: This project focuses on enhancing the gaming experience by providing intelligent game recommendations based on a user’s Steam library. By leveraging user-generated tags, the system determines game similarities to suggest new titles of interest.\nJustification for a Database: Given the extensive nature of Steam’s game library and the variety of user preferences, a structured database is necessary to efficiently store and analyze game data, user libraries, and recommendation mappings."
+  },
+  {
+    "objectID": "index.html#project-timeline",
+    "href": "index.html#project-timeline",
+    "title": "Open Valve - Steam Game Recommendation System",
+    "section": "Project Timeline",
+    "text": "Project Timeline\nA Gantt Chart has been developed and displayed in the report documents. It is used to outline the key tasks and milestones necessary for completing the final deliverable by April 29th."
+  },
+  {
+    "objectID": "index.html#operating-the-software",
+    "href": "index.html#operating-the-software",
+    "title": "Open Valve - Steam Game Recommendation System",
+    "section": "Operating the Software",
+    "text": "Operating the Software\nIf you are interested in running the software in this repository, read on!\n\nInstalling Dependencies and Configuring the Environment\nWith the aforementioned software requirements installed, run poetry install in the base directory. This will install all necessary Python dependencies and is required to use any other functionality of this repository.\nNow, you must configure the environment variables to allow for a connection to the database server. Create a copy of .env.sample in the root directory and name it .env. Inside that file replace &lt;eID&gt; with your VCU eID. Note that access to this database is limited to the creators of this project. You may create your own MySQL database with the data and scripts inside the ./database folder, if you desire to run this on your own. Just make sure to put the connection details in the .env and all other files should work.\n\n\nRendering Reports\nInside the ./reports directory, run the command poetry run quarto render.\nIt will take a moment to run all Python code and compile the markdown into html, and then the output will be placed in ./docs\n\n\nManaging the Database\n./database hosts a variety of scripts and software. See the README.md in that folder and any instructions from the scripts inside the file or from their output to learn about using them.\n\n\nRunning the Website\nInside the ./webapp directory, run make to start the website. It will be hosted on your local machine using Flask."
+  },
+  {
+    "objectID": "deliverable-7.html#goal",
+    "href": "deliverable-7.html#goal",
+    "title": "Implementation - Deliverable 7",
+    "section": "Goal",
+    "text": "Goal\nOpenValve is a database meant to connect Users, Games, and Tags with the purpose of finding game recommendations. By utilizing a combination of Steam Dev API calls and some web scraping techniques we’ve built a database of relevant games, users, and tags. Tags are especially important for their usage in categorizing games, and the players who trend towards certain tags in their games."
+  },
+  {
+    "objectID": "deliverable-7.html#target-audience",
+    "href": "deliverable-7.html#target-audience",
+    "title": "Implementation - Deliverable 7",
+    "section": "Target Audience",
+    "text": "Target Audience\nUs! - That is to say, all of us Steam users. As lifelong Steam users we’ve recognized it’s distinct lack of a reliable game recommendation system that is so commonplace in modern internet storefronts. So we’ve come up with our own solution, and are putting our Python and SQL mettle to the test by designing this system."
+  },
+  {
+    "objectID": "deliverable-7.html#database-design",
+    "href": "deliverable-7.html#database-design",
+    "title": "Implementation - Deliverable 7",
+    "section": "Database Design",
+    "text": "Database Design\n\n\n\n\n\nerDiagram \n    \n    GAME {\n        int appID PK\n        string title\n        string description\n        date release_date\n    }\n\n    TAG {\n      int tag_id PK\n      string name\n    }\n\n    GAMETAG {\n      int game_tag_id PK\n      int game_id FK\n      int tag_ID FK\n    }\n\n    USER {\n      int user_id PK\n      string name\n    }\n   \n    LIBRARY {\n      int library_id PK\n      int user_id FK\n      string appID FK\n    }\n\n    GAMETAG }o--|{ TAG : has\n    GAME ||--|| GAMETAG : has\n    USER ||..|| LIBRARY : owns\n    LIBRARY }o..o{ GAME : contains\n\n\n\n\n\n\nHere is a diagram of our database layout. Users have a Library, in that Library they have many games, and games have many tags. Library is a join table between users and games, and GameTag is a join table between games and tags."
+  },
+  {
+    "objectID": "deliverable-7.html#gathering-data",
+    "href": "deliverable-7.html#gathering-data",
+    "title": "Implementation - Deliverable 7",
+    "section": "Gathering Data",
+    "text": "Gathering Data\nTo gather our data we use two approaches:\n- Steam API\n- Web Scraping\nWe adhered to Steams acceptable use policy in regards to web scraping and rate limited our own program so as not to cause any trouble from our end or Steams end.\n\nSteam API\nWe utilized the Steamworks Dev API to gather information on users. This was primarily used for grabbing a users library to extract all the games out of it.\n\n\nWeb Scraping\nThe primary tool for data gathering was our webscraper, scrape.py. This uses the BeautifulSoup4 library to scrape the data from the steam store pages. It’s automated based on ranges of AppIDs given to it. This is used in conjunction with import_game.py which initiates a SQLAlchemy connection to the database to import the games and link all the tags that appear on the store page."
+  }
+]

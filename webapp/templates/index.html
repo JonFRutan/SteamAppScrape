@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <title>Home | Open Valve</title>
+    <h1>OpenValve Project Homepage</h1>
+    <hr/>
+  </head>
+
+  <body>
+    <p style="padding-bottom: 0px;">This website primarily interacts with games based on their "AppID". This is the number in the URL of the game's
+    page on Steam page.</p>
+    <p style="padding: 0px; padding-left: 10px;"><u>Example</u>: https://store.steampowered.com/app/<b style="color: var(--accent)">440</b>/Team_Fortress_2/</p>
+
+
+    <ul>
+      <li>
+        <a href="{{ url_for("about") }}">About</a>
+      </li>
+
+      <li>
+        <a href="{{ url_for("scrape") }}">Create</a>
+      </li>
+      
+      <li>
+        <a href="{{ url_for("view_game", appid=400) }}">Retrieve</a>
+      </li>
+
+      <li>
+        <a href="{{ url_for('update_game') }}">Update Game</a>
+      </li>
+
+      <li>
+        <a href="{{ url_for('delete_game') }}">Delete Game</a>
+      </li>
+
+      <li>
+        <a href="{{ url_for('import_user') }}">Import Steam User</a>
+      </li>
+
+      <li>
+        <a href="{{ url_for('recommendation') }}">Recommend Game</a>
+      </li>
+
+    </ul>
+  </body>
+
+<style>
+li {
+  padding: 5px;
+  font-size: 1.2em;
+}
+</style>
+</html>
+
