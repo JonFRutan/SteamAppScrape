@@ -19,7 +19,7 @@ MAX_PROCESSES = 4 # Max number of concurrent scrapers. Keep low to avoid rate li
 AppIDs = (1, 100) # Running from main will process all AppIDs from left (inclusive) to right (exclusive)
 #PICKLE_FILE was changed from using colons to underscores, as Windows systems don't allow colons in file names.
 PICKLE_FILE = f"../database/SteamData_&_{datetime.now().strftime('%Y-%m-%d_%H_%M_%S')}.pickle"
-OUTPUT = "pickle";
+OUTPUT = "json";
 
 def scrape(arg):
     """Scrapes steam web pages and returns a dict with all the information as follows:
@@ -75,13 +75,17 @@ def scrape(arg):
     except AttributeError:
         return None
 
-    try:
-        release = soup.find("div", class_="date")
-        release = release.text.strip()
-        release = datetime.strptime(release, "%b %d, %Y")
-        result.update({"release_date": release})
-    except AttributeError:
-        return None
+    #needed to handle non-date fields in the release date section. Using a placeholder 0001-01-01
+    release = soup.find("div", class_="date")
+    if release:
+        release_text = release.text.strip()
+        try:
+            release_parsed = datetime.strptime(release_text, "%b %d, %Y")
+        except ValueError:
+            release_parsed = datetime.strptime("0001-01-01", "%Y-%m-%d")
+    else:
+        release_parsed = datetime.strptime("0001-01-01", "%Y-%m-%d")
+    result.update({"release_date": release_parsed})
 
     app_id = url.strip("/").split("/")[-1]
     result.update({"appID": int(app_id)})
@@ -101,7 +105,10 @@ def scrapeProcess(args):
     
     result = scrape(args[0])
     if result is not None:
+        print(f"    -> Found {result.get('title')} for AppID: {args[0]}")
         args[1].put(result)
+    else:
+        print(f"    -> Nothing Found for AppID: {args[0]}")
 
 
 def processQueue(queue):
@@ -121,7 +128,7 @@ def processQueue(queue):
             pickle.dump(gameDataList, handle, protocol=pickle.HIGHEST_PROTOCOL)
     # JSON (stored in plaintext) data to JSON_FILE      
     elif (OUTPUT == "json"):
-        JSON_FILE = PICKLE_FILE.replace(".pickle", ".json")
+        JSON_FILE = f"{int(argv[2])}.json"
         with open(JSON_FILE, 'w', encoding='utf-8') as handle:
             json.dump(gameDataList, handle, ensure_ascii=False, indent=4, default=str)
 
@@ -146,8 +153,8 @@ if __name__ == "__main__":
         if len(argv) == 4:
             OUTPUT = argv[3].lower()
             if OUTPUT not in ("pickle", "json"):
-                print(f"{OUTPUT} not supported. Using '.pickle")
-                OUTPUT = "pickle"
+                print(f"Invalid output type \"{OUTPUT}\". Defaulting to .json...")
+                OUTPUT = "json"
     else:
         print("Error: Should be at least two arguments.\nUsage: python scrape.py first_app_id last_app_id filetype")
         print("AppIDs are Steam game AppIDs, and filetype can be \"json\" or \"pickle\"")
@@ -156,15 +163,15 @@ if __name__ == "__main__":
     # Append AppID range to file name
     PICKLE_FILE = PICKLE_FILE.replace("&", f"{AppIDs[0]}-{AppIDs[1]}")
 
-    app_count = int(argv[2]) - int(argv[1])
-    eta_seconds = (app_count / MAX_PROCESSES) * 2 #total ids to process divided by process count and multipled by average wait time of 2 seconds.
+    app_count = (int(argv[2]) - int(argv[1])) / 10
+    eta_seconds = (app_count / MAX_PROCESSES) * (3)  # Total ids to process divided by process count and multipled by average wait time of 3 seconds.
 
     print(f"SteamScraper reporting for duty!\nMax Processes {MAX_PROCESSES}\nFrom AppID {AppIDs[0]} -> {AppIDs[1] - 1}\nOutputting in {OUTPUT} format.")
     print(f"Processing {app_count} apps.\nETA: {eta_seconds} seconds.")
     print("=" * 50)
 
     # Run through requested range and output
-    AppIDsRange = list(range(AppIDs[0], AppIDs[1]))
+    AppIDsRange = list(range(AppIDs[0], AppIDs[1], 10))
 
     # Run with MAX_PROCESSES number of workers
     manager = mp.Manager()
