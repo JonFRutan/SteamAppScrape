@@ -31,7 +31,12 @@ This will install all necessary Python dependencies and is required to use any o
 `./database` hosts a variety of scripts and software. See the README.md in that folder and any instructions from the
 scripts inside the file or from their output to learn about using them.
   
-In order to use a database you'll need to populate a local `.env` file in your project root. See the README.md in database for more info.  
+In order to use a database you'll need to populate a local `.env` file in your project root. The following variables will be looked for:  
+- `DB_USER`: Username for database access.  
+- `DB_PASS`: Password for database access.  
+- `DB_NAME`: Name of the database.  
+- `DB_HOST`: Hostname of the database.  
+- `STEAM_API_KEY` : A steam dev api key, which can be found [here](https://steamcommunity.com/dev).  
 
 ### Running the Website
 Inside the `./webapp` directory, run `make` to start the website.
