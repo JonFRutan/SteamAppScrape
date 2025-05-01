@@ -22,21 +22,16 @@ You must have the following installed on your machine to use the software in thi
 
 ## Where and How
 
-### Viewing Reports
-Simply open the `./docs/index.html` in a browser and click on the report you would like to view.
-
 ### Installing Dependencies and Configuring the Environment
 With the aforementioned software requirements installed, run `poetry install` in the base directory.
 This will install all necessary Python dependencies and is required to use any other functionality of this repository.
 
-Now, you must configure the environment variables to allow for a connection to the database server.
-Create a copy of `.env.sample` in the root directory and name it `.env`. Inside that file replace `<eID>` with your VCU eID.
-Note that access to this database is limited to the creators of this project. You may create your own MySQL database with the data and scripts
-inside the `./database` folder, if you desire to run this on your own. Just make sure to put the connection details in the .env and all other files should work.
 
 ### Managing the Database
 `./database` hosts a variety of scripts and software. See the README.md in that folder and any instructions from the
 scripts inside the file or from their output to learn about using them.
+  
+In order to use a database you'll need to populate a local `.env` file in your project root. See the README.md in database for more info.  
 
 ### Running the Website
 Inside the `./webapp` directory, run `make` to start the website.
