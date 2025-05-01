@@ -1,8 +1,6 @@
-# Open Valve - Steam Game Recommendation System
-
-## Project Overview
-This repository contains the deliverables for the Database Design Project. The objective of this project is to create a database and front-end that provides Steam game recommendations based on the user's current library.
-Using user-generated tags from the Steam storefront, the system identifies and suggests similar games. The reports provide an in-depth analysis of the database design, with the accompanying video presentations that offer further context regarding the design process, key considerations, and a demo of the final product.
+# SteamAppScrape  
+SteamAppScrape is a set of tools for scraping game data off of Steam and putting them into a database.
+Originally created for a class project, I've moved here for preservation and to continue working on.
 
 ## Authors
 - **Jon Rutan**
@@ -26,7 +24,6 @@ You must have the following installed on your machine to use the software in thi
 With the aforementioned software requirements installed, run `poetry install` in the base directory.
 This will install all necessary Python dependencies and is required to use any other functionality of this repository.
 
-
 ### Managing the Database
 `./database` hosts a variety of scripts and software. See the README.md in that folder and any instructions from the
 scripts inside the file or from their output to learn about using them.
@@ -36,7 +33,7 @@ In order to use a database you'll need to populate a local `.env` file in your p
 - `DB_PASS`: Password for database access.  
 - `DB_NAME`: Name of the database.  
 - `DB_HOST`: Hostname of the database.  
-- `STEAM_API_KEY` : A steam dev api key, which can be found [here](https://steamcommunity.com/dev).  
+- `STEAM_API_KEY` : A Steam dev api key, which can be found [here](https://steamcommunity.com/dev).  
 
 ### Running the Website
 Inside the `./webapp` directory, run `make` to start the website.
