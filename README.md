@@ -1,6 +1,6 @@
 # SteamAppScrape  
 SteamAppScrape is a set of tools for scraping game data off of Steam and putting them into a database.
-Originally created by **Jon Rutan** and **Trevor Corcoran** for a class project, I've moved here for preservation and to continue working on.
+Originally created by **Jon Rutan (me) & Trevor Corcoran** for a class project, I've moved here for preservation and to continue working on.
 
 ## Relevant Folders  
 * `./database` - Scripts, data, and SQL files related to the construction of the database
