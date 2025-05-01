@@ -6,12 +6,14 @@ This script checks a range of Steam AppIDs and scrapes pertinent data that is sa
 
 The scraping process is run concurrently on four worker processes, and between each request to steam is
 a delay between one to three seconds to prevent rate limiting. Do NOT lower this value else your
-IP will be blocked by Steam for some time.
+IP will be blocked by Steam for some time.  
+*Alternatively* you could remove the multiprocessing and remove the timer.  
 
 ### Tools
 
-* [Poetry](https://python-poetry.org/) => Python dependency management
-* [Beautiful Soup](http://www.crummy.com/software/BeautifulSoup/) => Web scraping library
+* [Poetry](https://python-poetry.org/) => Python dependency management.  
+* [Beautiful Soup](http://www.crummy.com/software/BeautifulSoup/) => Web scraping library.  
+* [SQLAlchemy](https://www.sqlalchemy.org/) => SQL for database management through Python.  
 
 ### Getting started
 
@@ -27,7 +29,8 @@ With poetry having installed the correct dependencies, you may now use these pro
 
 `poetry run python scrape.py <from-id> <to-id> <format>`
 
-The program will scrape Steam on the range of AppIDs supplied, and then output in the specified format (`json` (default) or `pickle`).
+The program will scrape Steam on the range of AppIDs supplied, and then output in the specified format (`json` (default) or `pickle`).  
+By default the scraper will actually scrape every 10 steps, (AppIDs ending in 10) because Steam seems to place most games in those indices.  
 
 #### `import.py`
 
